@@ -163,7 +163,17 @@ Spot's latest antics.
 
 ## Comparison of Similar Apps
 
+### Instagram
 
+TODO
+
+### Daily Photo Personal Diary
+
+TODO
+
+### Mystagram - Private Photo Diary
+
+TODO
 
 ## Prototype
 
