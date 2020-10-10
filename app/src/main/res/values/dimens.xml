@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_button_size">40dp</dimen>
+    <dimen name="bottom_button_vertical_margin">10dp</dimen>
+    <dimen name="bottom_button_horizontal_offset">30dp</dimen>
+</resources>
