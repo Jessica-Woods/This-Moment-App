@@ -9,10 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
@@ -31,7 +33,7 @@ class HomeFragment : Fragment() {
         val momentAdapter = MomentAdapter(onClick = ::onMomentClicked)
         momentsRecycler.adapter = momentAdapter
 
-        viewModel.getMoments().observe(viewLifecycleOwner, Observer { moments ->
+        viewModel.observeMoments().observe(viewLifecycleOwner, Observer { moments ->
             momentAdapter.submitList(moments)
         })
     }

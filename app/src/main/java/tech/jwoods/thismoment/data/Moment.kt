@@ -2,14 +2,18 @@ package tech.jwoods.thismoment.data
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.time.LocalDate
 
+@Entity(tableName = "moment")
 @Parcelize
-data class Moment (
+data class Moment(
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     val title: String,
-    val description: String,
-    val date: LocalDate
+    val description: String
 
     // TODO Starred + Image
 ) : Parcelable {

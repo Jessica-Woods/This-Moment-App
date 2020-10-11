@@ -15,10 +15,10 @@ Iteration 1: Create basic home screen [DONE]
 - Add the Bottom Bar to Home with "Create", "Search" and "Star" icons.
 - Display the photo frame in the recycler view with a placeholder photo. 
 
-Iteration 2: Create basic detail screen
+Iteration 2: Create basic detail screen [DONE]
 
 - Accept navigation from Home screen
-- Create functional detail screen layout (placeholder image, basic viewmodel) 
+- Create functional detail screen layout (placeholder image) 
 
 Iteration 3: Create basic edit screen
 
@@ -540,7 +540,7 @@ data class Moment (...) : Parcelable {
 ```
 
 Google recommends using the kotlin "safe args" plugin for navigation arguments, so we need to install it. We add the
-following to the **top-level** `build.gradle` (Google 2020):
+following to the **top-level** `build.gradle` (Google 2020a):
 
 ```
 buildscript {
@@ -766,6 +766,208 @@ class DetailFragment : Fragment() {
 Here's the result:
 
 ![image of this moment detail screen with placeholder image but real title and desciption](images/gaps/this_moment_gap_5.png)
+
+## Gap 6: Using Room for Data
+
+We've been using hardcoded data up until this point. We can't keep using hardcoded data if we want to implement the
+edit screen, so let's put our data in the local SQLite database using Room.
+
+First we need to add the room dependencies to our **app** `build.gradle` (Google 2020b) (JetBrains 2019):
+
+```
+...
+apply plugin: 'kotlin-kapt'
+
+...
+
+dependencies {
+    ...
+
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+}
+```
+
+Next we need to turn `Moment` into an `@Entity` so Room can store it:
+
+```
+@Entity(tableName = "moment")
+@Parcelize
+data class Moment(
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val title: String,
+    val description: String,
+    val date: LocalDate
+
+    // TODO Starred + Image
+) : Parcelable { ... }
+```
+
+We also introduce the `id` field which is a unique identifier identifying a `Moment` in the database.
+
+Now we need to set up the `MomentDAO` which is responsible for querying the database and providing us CRUD 
+capabilities:
+
+```
+@Dao
+interface MomentDAO {
+    @Query("SELECT * FROM moment")
+    fun observeMoments(): LiveData<List<Moment>>
+
+    @Query("SELECT * FROM moment WHERE id = :id")
+    fun observeMoment(id: Int): LiveData<List<Moment>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(moment: Moment)
+}
+```
+
+With the `MomentDAO` we can:
+
+- Query all moments using `observeMoments()`
+- Query a single moment using `observeMoment(id)`
+- Create or update a moment using `insert(moment)`
+
+We use `OnConflictStrategy.REPLACE` to make `insert` a "Create or Update" method since we're always updating
+the entire object.
+
+Next, we create a `ThisMomentDatabase` object that represents our database and provides access to the `DAO` objects:
+
+```
+@Database(entities = [Moment::class], version = 1, exportSchema = false)
+abstract class ThisMomentDatabase : RoomDatabase() {
+    abstract fun momentDao(): MomentDAO
+}
+```
+
+We have a problem though, how do we give our `ViewModel` access to the database? 
+
+## Gap 7: Dependency injection with Hilt
+
+The simplest way to inject the database would have been to use a singleton pattern with some extra code to deal with
+multiple threads accessing the database. 
+
+Instead of doing this, I've chosen to use Hilt to dependency inject the Database, and other dependencies, into our
+ViewModels. 
+
+This involved reading a lot of documentation including Cattaneo 2017, Google 2020c, Google 202d and Proj 2020. 
+
+First we need to add the Hilt dependencies to our **app** `build.gradle`:
+
+```
+dependencies {
+    def hilt_version = "2.28-alpha"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    def hilt_viewmodel_version = "1.0.0-alpha01"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_viewmodel_version"
+}
+```
+
+We also need to add the hilt plugin to the **top level** `build.gradle`:
+
+```
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+    }
+}
+```
+
+Next we need to prepare the app to use Hilt. We need a custom `Application` class that uses `@HiltAndroidApp` like this:
+
+```
+@HiltAndroidApp
+class ThisMomentApplication : Application()
+```
+
+Then we modify `AndroidManifest.xml` to use our new application:
+
+```
+<manifest ...>
+    <application android:name=".ThisMomentApplication" ...>
+        ...
+    </application>
+</manifest>
+```
+
+Now we can modify `MomentRepository` to depend on the `MomentDAO`:
+
+```
+class MomentRepository @Inject constructor(private val momentDao: MomentDAO) {
+    fun observeMoments(): LiveData<List<Moment>> {
+        return momentDao.observeMoments()
+    }
+}
+```
+
+Now we need to set up a Hilt module to provide the Database, DAO and Repository:
+
+```
+@Module
+@InstallIn(ApplicationComponent::class)
+object DatabaseModule {
+    @Singleton
+    @Provides
+    fun providesDatabase(application: Application): ThisMomentDatabase = Room
+        .databaseBuilder(application, ThisMomentDatabase::class.java, "this-moment-db")
+        .build()
+
+    @Singleton
+    @Provides
+    fun providesMomentDao(database: ThisMomentDatabase): MomentDAO = database.momentDao()
+
+    @Singleton
+    @Provides
+    fun providesMomentRepository(momentDao: MomentDAO): MomentRepository =
+        MomentRepository(momentDao)
+}
+```
+
+Next we need to tell Hilt to inject our `MainActivity`:
+
+```
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    ...
+}
+```
+
+And our `HomeFragment`:
+
+```
+@AndroidEntryPoint
+class HomeFragment : Fragment() {
+    ...
+}
+```
+
+Finally, we can modify `HomeViewModel` to depend on the `MomentRepository`:
+
+```
+class HomeViewModel @ViewModelInject constructor(
+    private val momentRepository: MomentRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    fun getMoments(): LiveData<List<Moment>> {
+        return momentRepository.observeMoments()
+    }
+}
+```
+
+This way Hilt can handle all the construction and injection of our dependencies, we just need to set up a few
+annotations in the right spots.
  
 # Open Issues and Recommendations
 
@@ -774,4 +976,16 @@ Here's the result:
 
 Google, 2018, *Use Android Jetpack to Accelerate Your App Development*, Google, viewed 11 October 2020, <https://android-developers.googleblog.com/2018/05/use-android-jetpack-to-accelerate-your.html>.
 
-Google, 2020, *Pass data between destinations*, Google, viewed 11 October 2020, <https://developer.android.com/guide/navigation/navigation-pass-data>.
+Google, 2020a, *Pass data between destinations*, Google, viewed 11 October 2020, <https://developer.android.com/guide/navigation/navigation-pass-data>.
+
+Google, 2020b, *Room*, Google, viewed 11 October 2020, <https://developer.android.com/jetpack/androidx/releases/room>.
+
+JetBrains, 2019 *Annotation Processing with Kotlin*, JetBrains, viewed 11 October 2020, <https://kotlinlang.org/docs/reference/kapt.html>.
+
+Cattaneo, M, 2017, *Integrate Dagger 2 with Room Persistence Library in few lines*, Medium, viewed 11 October 2020, <https://medium.com/@marco_cattaneo/integrate-dagger-2-with-room-persistence-library-in-few-lines-abf48328eaeb>.
+
+Google, 2020c, *Dependency injection with Hilt*, Google, viewed 11 October 2020, <https://developer.android.com/training/dependency-injection/hilt-android>.
+
+Google, 2020d, *Hilt and Jetpack integrations*, Google, viewed 11 October 2020, <https://developer.android.com/training/dependency-injection/hilt-jetpack>.
+
+Proj, E, 2020, *Injecting ViewModel with Dagger Hilt*, Medium, viewed 11 October 2020, <https://medium.com/mobile-app-development-publication/injecting-viewmodel-with-dagger-hilt-54ca2e433865>.
