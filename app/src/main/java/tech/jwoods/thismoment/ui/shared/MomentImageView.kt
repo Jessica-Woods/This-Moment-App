@@ -3,9 +3,12 @@ package tech.jwoods.thismoment.ui.shared
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import kotlinx.android.synthetic.main.view_moment_image.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
+import kotlin.math.absoluteValue
 
 class MomentImageView @JvmOverloads constructor(
     context: Context,
@@ -18,7 +21,14 @@ class MomentImageView @JvmOverloads constructor(
             .inflate(R.layout.view_moment_image, this, true)
     }
 
-    fun setMoment(moment: Moment) {
-        // TODO: Set image from moment
+    fun setGoldFrame(moment: Moment) {
+        val rand = (moment.hashCode().absoluteValue % 10) - 5
+
+        if (moment.starred) {
+            goldFrame.rotation = rand.toFloat()
+            goldFrame.visibility = View.VISIBLE
+        } else {
+            goldFrame.visibility = View.GONE
+        }
     }
 }

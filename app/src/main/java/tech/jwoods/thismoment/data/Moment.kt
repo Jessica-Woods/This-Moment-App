@@ -13,16 +13,17 @@ data class Moment(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val title: String,
-    val description: String
+    val description: String,
+    var starred: Boolean
 
     // TODO Starred + Image
 ) : Parcelable {
     companion object {
-        fun empty(): Moment = Moment(0, "", "")
+        fun empty(): Moment = Moment(0, "", "", false)
 
         val diff = object : DiffUtil.ItemCallback<Moment>() {
             override fun areItemsTheSame(oldItem: Moment, newItem: Moment): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Moment, newItem: Moment): Boolean {

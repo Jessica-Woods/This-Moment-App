@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
+    android:paddingHorizontal="10dp"
+    android:clipToPadding="false"
+    >
 
     <ImageView
         android:id="@+id/momentPhoto"
@@ -31,4 +34,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/photo_frame" />
+
+    <ImageView
+        android:id="@+id/goldFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:rotation="4"
+        android:visibility="gone"
+        android:background="@drawable/decal_gold_frame_home_screen"
+        app:layout_constraintTop_toTopOf="@id/momentPhoto"
+        app:layout_constraintRight_toRightOf="@id/momentPhoto"
+        app:layout_constraintLeft_toLeftOf="@id/momentPhoto"
+        app:layout_constraintBottom_toBottomOf="@id/momentPhoto"
+        />
+
 </merge>

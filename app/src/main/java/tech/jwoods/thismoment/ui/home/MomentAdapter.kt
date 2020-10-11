@@ -14,9 +14,11 @@ class MomentAdapter(
     val onClick: (Moment) -> Unit = { _ -> Unit }
 ) : ListAdapter<Moment, MomentAdapter.ViewHolder>(Moment.diff) {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val momentImageView = view.momentImage
         val momentTitle: TextView = view.momentTitle
 
         fun bind(moment: Moment) {
+            momentImageView.setGoldFrame(moment)
             momentTitle.text = moment.title
         }
     }

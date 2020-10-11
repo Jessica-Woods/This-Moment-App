@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onMomentClicked(moment: Moment) {
-        val action = HomeFragmentDirections.toDetail(moment)
+        val action = HomeFragmentDirections.toDetail(moment.id)
         findNavController().navigate(action)
     }
 

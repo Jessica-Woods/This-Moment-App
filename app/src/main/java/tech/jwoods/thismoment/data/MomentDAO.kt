@@ -12,7 +12,7 @@ interface MomentDAO {
     fun observeMoments(): LiveData<List<Moment>>
 
     @Query("SELECT * FROM moment WHERE id = :id")
-    fun observeMoment(id: Long): LiveData<List<Moment>>
+    fun observeMoment(id: Long): LiveData<Moment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(moment: Moment): Long

@@ -41,6 +41,4 @@ class CreateFragment : Fragment() {
             }
         }
     }
-
-
 }

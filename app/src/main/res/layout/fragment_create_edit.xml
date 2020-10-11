@@ -13,6 +13,15 @@
         tools:context=".ui.edit.EditFragment">
 
         <!-- Delete Button -->
+        <ImageButton
+            android:id="@+id/momentDeleteButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_delete_button"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Image -->
         <tech.jwoods.thismoment.ui.shared.MomentImageView
