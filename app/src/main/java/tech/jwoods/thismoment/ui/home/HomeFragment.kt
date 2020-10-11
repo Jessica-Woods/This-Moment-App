@@ -36,10 +36,17 @@ class HomeFragment : Fragment() {
         viewModel.observeMoments().observe(viewLifecycleOwner, Observer { moments ->
             momentAdapter.submitList(moments)
         })
+
+        createButton.setOnClickListener { onCreateClicked() }
     }
 
     private fun onMomentClicked(moment: Moment) {
         val action = HomeFragmentDirections.toDetail(moment)
+        findNavController().navigate(action)
+    }
+
+    private fun onCreateClicked() {
+        val action = HomeFragmentDirections.toCreate()
         findNavController().navigate(action)
     }
 }

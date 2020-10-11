@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="@id/botomBarTopMargin"
+        app:layout_constraintTop_toTopOf="@id/bottomBarTopMargin"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <!--
@@ -31,13 +31,13 @@
         of `addButton`
     -->
     <Space
-        android:id="@+id/botomBarTopMargin"
+        android:id="@+id/bottomBarTopMargin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_button_vertical_margin"
-        app:layout_constraintBottom_toTopOf="@id/addButton" />
+        app:layout_constraintBottom_toTopOf="@id/createButton" />
 
     <ImageButton
-        android:id="@+id/addButton"
+        android:id="@+id/createButton"
         android:layout_width="@dimen/bottom_button_size"
         android:layout_height="@dimen/bottom_button_size"
         android:layout_marginBottom="@dimen/bottom_button_vertical_margin"

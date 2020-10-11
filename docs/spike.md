@@ -968,6 +968,211 @@ class HomeViewModel @ViewModelInject constructor(
 
 This way Hilt can handle all the construction and injection of our dependencies, we just need to set up a few
 annotations in the right spots.
+
+## Gap 8: Create Screen
+
+Now that we can display moments, we still need a way to create them. For this we're going to make a create screen.
+
+The plan is to have one layout that is shared between the `CreateFragment` and `EditFragment`. The layout will be the
+same but the behavior and navigation of each fragment will be different.
+
+Let's start with the layout, we're using `TextInputLayout` and `TextInputEditText` :
+
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grid_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.edit.EditFragment">
+
+        <!-- Delete Button -->
+
+        <!-- Image -->
+        <tech.jwoods.thismoment.ui.shared.MomentImageView
+            android:id="@+id/momentImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/momentTitleLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintWidth_percent="0.9" >
+
+        </tech.jwoods.thismoment.ui.shared.MomentImageView>
+
+        <!-- Date -->
+        <EditText
+            android:id="@+id/momentDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="date"
+            android:hint="date"
+            android:autofillHints="October 1st, 2020"
+            app:layout_constraintBottom_toBottomOf="@id/momentImageView"
+            app:layout_constraintRight_toRightOf="@id/momentImageView"
+            tools:text="Date" />
+
+
+        <!-- Title -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/momentTitleLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/momentImageView"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/momentTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@style/TitleText"
+                android:hint="title"
+                android:windowSoftInputMode="adjustPan"
+                tools:text="Untitled"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/momentDescriptionLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/momentTitleLayout"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/momentDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TitleText"
+                android:hint="description"
+                android:windowSoftInputMode="adjustPan"
+                tools:text="Description of the moment goes here.." />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+```
+
+We're going to focus on `title` and `description` first. We'll come back to images and dates in a later gap.
+
+Next we create the `CreateViewModel` which holds the `moment` we're changing and has functions to save
+and update the moment:
+
+```
+class CreateViewModel @ViewModelInject constructor(
+    private val momentRepository: MomentRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    var moment: Moment = Moment.empty()
+
+    fun updateTitle(title: String) {
+        moment = moment.copy(title = title)
+        save()
+    }
+
+    fun updateDescription(description: String) {
+        moment = moment.copy(description = description)
+        save()
+    }
+
+    fun save() = viewModelScope.launch(Dispatchers.IO) {
+        val savedMoment = momentRepository.save(moment)
+        moment = savedMoment
+    }
+}
+```
+ 
+We're using our dependency injection again from the previous gap to get access to the `MomentRepository`. 
+
+We start with an empty `Moment` using a helper function defined in `Moment`:
+
+```
+data class Moment(...) : Parcelable {
+    companion object {
+        fun empty(): Moment = Moment(0, "", "")
+        ...
+    }
+}
+```
+
+Now we can set up `CreateFragment` to update the title and description whenever the text fields lose focus:
+
+```
+@AndroidEntryPoint
+class CreateFragment : Fragment() {
+    private val viewModel: CreateViewModel by viewModels()
+
+    ...
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.save()
+
+        momentTitle.setText(viewModel.moment.title)
+        momentDescription.setText(viewModel.moment.description)
+
+        momentTitle.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus && momentTitle.error == null) {
+                viewModel.updateTitle(momentTitle.text.toString())
+            }
+        }
+
+        momentDescription.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus && momentDescription.error == null) {
+                viewModel.updateDescription(momentDescription.text.toString())
+            }
+        }
+    }
+}
+```
+
+Using a focus change listener feels like a good compromise between data integrity and performance here. We could
+save on each keypress but hitting the database as you type can make things lag, doing things on focus gives almost
+the same user experience with much better performance.
+
+Now we can create Moments:
+
+![image of this moment create screen with no data](images/gaps/this_moment_gap_8_create_screen_no_data.png)
+
+Fill them with data:
+
+![image of this moment create screen with no data](images/gaps/this_moment_gap_8_create_screen_with_data.png)
+
+See them on the home screen:
+
+![image of this moment home screen with new moments](images/gaps/this_moment_gap_8_home_screen.png)
+
+And on the detail screen:
+
+![image of this moment detail screen with a new moment](images/gaps/this_moment_gap_8_detail_screen.png)
  
 # Open Issues and Recommendations
 

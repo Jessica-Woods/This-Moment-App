@@ -11,13 +11,15 @@ import kotlinx.android.parcel.Parcelize
 data class Moment(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val title: String,
     val description: String
 
     // TODO Starred + Image
 ) : Parcelable {
     companion object {
+        fun empty(): Moment = Moment(0, "", "")
+
         val diff = object : DiffUtil.ItemCallback<Moment>() {
             override fun areItemsTheSame(oldItem: Moment, newItem: Moment): Boolean {
                 return oldItem == newItem
