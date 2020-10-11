@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.detail
+package tech.jwoods.thismoment.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,5 +23,6 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         momentTitle.text = args.moment.title
+        momentDescription.text = args.moment.description
     }
 }

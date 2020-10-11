@@ -7,28 +7,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/momentPhoto"
+    <tech.jwoods.thismoment.ui.shared.MomentImageView
+        android:id="@+id/momentImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="10dp"
-        app:layout_constraintWidth_percent="0.94"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/picture_placeholder" />
-
-    <ImageView
-        android:id="@+id/momentFrame"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/photo_frame" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/momentTitle"
@@ -38,7 +23,7 @@
         android:textAppearance="@style/TitleText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/momentFrame"
+        app:layout_constraintTop_toBottomOf="@id/momentImage"
         tools:text="My best moment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

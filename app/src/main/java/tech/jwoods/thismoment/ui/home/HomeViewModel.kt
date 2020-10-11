@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.home
+package tech.jwoods.thismoment.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

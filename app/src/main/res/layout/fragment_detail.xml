@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".detail.DetailFragment">
+    android:background="@drawable/grid_background"
+    tools:context=".ui.detail.DetailFragment">
+
+    <tech.jwoods.thismoment.ui.shared.MomentImageView
+        android:id="@+id/momentImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/momentTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintWidth_percent="0.9" />
 
     <TextView
         android:id="@+id/momentTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/momentImageView"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="20dp"
+        tools:text="Pumpkin Carving on the Beach" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/momentDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/momentTitle"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="20dp"
+        tools:text="We carved a bunch of pumpkins" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,4 +5,6 @@
     <string name="star_button_description">Star Button</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="moment_photo_description">photo of moment</string>
+    <string name="moment_frame_description">whimsical polaroid frame around the moment photo</string>
 </resources>

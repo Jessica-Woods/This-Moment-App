@@ -18,7 +18,7 @@ Iteration 1: Create basic home screen [DONE]
 Iteration 2: Create basic detail screen
 
 - Accept navigation from Home screen
-- Create functional detail screen layout (placeholder image, basic viewmodel, no fancy design elements) 
+- Create functional detail screen layout (placeholder image, basic viewmodel) 
 
 Iteration 3: Create basic edit screen
 
@@ -510,7 +510,7 @@ Then we add it to `navigation.xml` using the IDE tools. We'll make the `DetailFr
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="tech.jwoods.thismoment.home.HomeFragment"
+        android:name="tech.jwoods.thismoment.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -520,7 +520,7 @@ Then we add it to `navigation.xml` using the IDE tools. We'll make the `DetailFr
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="tech.jwoods.thismoment.detail.DetailFragment"
+        android:name="tech.jwoods.thismoment.ui.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
@@ -607,6 +607,165 @@ class HomeFragment : Fragment() {
 Now we can get to the detail screen:
 
 ![image of the detail screen showing a moment tile](images/gaps/this_moment_gap_4.png)
+
+## Gap 5: Detail Screen Design
+
+Let's make the detail screen look better.
+
+The focal point of the screen is the framed photo. This is very similar to the framing on the Home screen, so I'm going
+to extract it into a custom view that we can reuse. 
+
+We covered this in my Core 2 spike report and I'm going to use the same technique here.
+
+First we create `view_moment_image.xml` with the stacked `ImageView` layout we had in `fragment_home.xml`:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    ...
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/momentPhoto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/moment_photo_description"
+        app:layout_constraintWidth_percent="0.94"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/picture_placeholder" />
+
+    <ImageView
+        android:id="@+id/momentFrame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/moment_frame_description"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/photo_frame" />
+</merge>
+```
+
+Then we create the `MomentImageView` class:
+
+```
+class MomentImageView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+    init {
+        LayoutInflater
+            .from(context)
+            .inflate(R.layout.view_moment_image, this, true)
+    }
+
+    fun setMoment(moment: Moment) {
+        // TODO: Set image from moment
+    }
+}
+```
+
+Now we can update `layout_moment_cell.xml` to use our new `MomentImageView`:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout ...>
+
+    <tech.jwoods.thismoment.ui.shared.MomentImageView
+        android:id="@+id/momentImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    ...
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Next, we can create our design in `fragment_detail.xml` using `MomentImageView` and some `TextView`'s:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    ...
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grid_background"
+    tools:context=".ui.detail.DetailFragment">
+
+    <tech.jwoods.thismoment.ui.shared.MomentImageView
+        android:id="@+id/momentImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/momentTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <TextView
+        android:id="@+id/momentTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/momentImageView"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="20dp"
+        tools:text="Pumpkin Carving on the Beach" />
+
+    <TextView
+        android:id="@+id/momentDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/momentTitle"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="20dp"
+        tools:text="We carved a bunch of pumpkins" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+ 
+Finally, we update `DetailFragment` to bind the title and description:
+ 
+```
+class DetailFragment : Fragment() {
+    private val args: DetailFragmentArgs by navArgs()
+
+    ...
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        momentTitle.text = args.moment.title
+        momentDescription.text = args.moment.description
+    }
+}
+```
+
+Here's the result:
+
+![image of this moment detail screen with placeholder image but real title and desciption](images/gaps/this_moment_gap_5.png)
  
 # Open Issues and Recommendations
 
