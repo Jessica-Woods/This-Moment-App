@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import tech.jwoods.thismoment.R
-import tech.jwoods.thismoment.data.MomentRepository
 
 class HomeFragment : Fragment() {
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,7 +29,8 @@ class HomeFragment : Fragment() {
         val momentAdapter = MomentAdapter()
         momentsRecycler.adapter = momentAdapter
 
-        val momentRepository = MomentRepository()
-        momentAdapter.submitList(momentRepository.getMoments())
+        viewModel.getMoments().observe(viewLifecycleOwner, Observer { moments ->
+            momentAdapter.submitList(moments)
+        })
     }
 }
