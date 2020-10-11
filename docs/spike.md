@@ -335,6 +335,8 @@ Here's what I was dealing with:
 
 ![image of this moment home screen with first cell photo wildly out of bounds](images/gaps/this_moment_gap_2_blooper.png)
 
+![image of this moment where all photos are too small](images/gaps/this_moment_gap_2_blooper_2.png)
+
 All of these approaches had problems, the main issue was something that looked correct on one device would scale
 improperly on other devices.
 
@@ -491,11 +493,126 @@ class HomeFragment : Fragment() {
  screen we see when opening the app. 
   
 That's it! Now we're using Fragments instead of Activities.
+
+## Gap 4: Detail Navigation
+
+When the user taps on a moment we want it to navigate to the detail screen. We can do this using the `navigation.xml`
+file we created earlier.
+
+First we create a new empty fragment called `DetailFragment` with a plain text box inside of it.
+
+Then we add it to `navigation.xml` using the IDE tools. We'll make the `DetailFragment` take a single argument called
+`moment` of type `Moment`, we also add a navigation action from `HomeFragment` to `DetailFragment`:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<navigation ...>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="tech.jwoods.thismoment.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="tech.jwoods.thismoment.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="moment"
+            app:argType="tech.jwoods.thismoment.data.Moment" />
+    </fragment>
+</navigation>
+```
+
+This means we also need to make `Moment` parcelable:
+
+```
+@Parcelize
+data class Moment (...) : Parcelable {
+    ...
+}
+```
+
+Google recommends using the kotlin "safe args" plugin for navigation arguments, so we need to install it. We add the
+following to the **top-level** `build.gradle` (Google 2020):
+
+```
+buildscript {
+    ...
+    dependencies {
+        ...
+        def nav_version = "2.3.0"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
+}
+
+...
+```
+
+We also add the following to the **app** `build.gradle`:
+
+```
+...
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+...
+```
+
+Next we can set up `DetailFragment` to accept a `Moment` on navigation and bind it to the layout:
+
+```
+class DetailFragment : Fragment() {
+    private val args: DetailFragmentArgs by navArgs()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        momentTitle.text = args.moment.title
+    }
+}
+```
+
+Finally, we modify `HomeFragment` to navigate to `DetailFragment` when a moment is tapped:
+
+```
+class HomeFragment : Fragment() {
+    ...
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ...
+        val momentAdapter = MomentAdapter(onClick = ::onMomentClicked)
+        ...
+    }
+
+    private fun onMomentClicked(moment: Moment) {
+        val action = HomeFragmentDirections.toDetail(moment)
+        findNavController().navigate(action)
+    }
+}
+```
+
+Now we can get to the detail screen:
+
+![image of the detail screen showing a moment tile](images/gaps/this_moment_gap_4.png)
  
 # Open Issues and Recommendations
 
 
 # References
 
-
 Google, 2018, *Use Android Jetpack to Accelerate Your App Development*, Google, viewed 11 October 2020, <https://android-developers.googleblog.com/2018/05/use-android-jetpack-to-accelerate-your.html>.
+
+Google, 2020, *Pass data between destinations*, Google, viewed 11 October 2020, <https://developer.android.com/guide/navigation/navigation-pass-data>.

@@ -9,5 +9,19 @@
         android:id="@+id/homeFragment"
         android:name="tech.jwoods.thismoment.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/toDetail"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="tech.jwoods.thismoment.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="moment"
+            app:argType="tech.jwoods.thismoment.data.Moment" />
+    </fragment>
 </navigation>
