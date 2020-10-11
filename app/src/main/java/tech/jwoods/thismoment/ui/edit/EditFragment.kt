@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import kotlinx.android.synthetic.main.fragment_create_edit.momentDescription
 import kotlinx.android.synthetic.main.fragment_create_edit.momentTitle
 import tech.jwoods.thismoment.R
+import tech.jwoods.thismoment.data.Moment
+import tech.jwoods.thismoment.ui.detail.DetailFragmentDirections
 
 @AndroidEntryPoint
 class EditFragment : Fragment() {
@@ -31,10 +34,10 @@ class EditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.observeMoment(args.momentId).observe(viewLifecycleOwner, Observer { moment ->
-            momentDeleteButton.setOnClickListener { onDeleteClicked() }
+            momentDeleteButton.setOnClickListener { onDeleteClicked(moment) }
 
-            momentTitle.setText(moment.title)
-            momentDescription.setText(moment.description)
+            momentTitle.setText(moment?.title)
+            momentDescription.setText(moment?.description)
 
             momentTitle.setOnFocusChangeListener { v, hasFocus ->
                 if (!hasFocus && momentTitle.error == null) {
@@ -50,8 +53,10 @@ class EditFragment : Fragment() {
         })
     }
 
-    private fun onDeleteClicked() {
-
+    private fun onDeleteClicked(moment: Moment) {
+        viewModel.delete(moment)
+        val action = EditFragmentDirections.toHome()
+        findNavController().navigate(action)
     }
 
 }

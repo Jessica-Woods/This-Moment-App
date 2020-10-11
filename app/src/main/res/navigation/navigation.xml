@@ -39,6 +39,9 @@
         <argument
             android:name="moment_id"
             app:argType="long" />
+        <action
+            android:id="@+id/toHome"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment

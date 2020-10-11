@@ -19,6 +19,10 @@ class EditViewModel @ViewModelInject constructor(
         return momentRepository.observeMoment(attractionId)
     }
 
+    fun delete(moment: Moment) = viewModelScope.launch(Dispatchers.IO) {
+        momentRepository.delete(moment)
+    }
+
     fun save(moment: Moment) = viewModelScope.launch(Dispatchers.IO) {
         momentRepository.save(moment)
     }

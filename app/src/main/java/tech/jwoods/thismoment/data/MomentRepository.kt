@@ -13,7 +13,11 @@ class MomentRepository @Inject constructor(private val momentDao: MomentDAO) {
         return momentDao.observeMoment(id).distinctUntilChanged()
     }
 
-    suspend fun save(moment: Moment):Moment {
+    suspend fun delete(moment: Moment) {
+        momentDao.delete(moment)
+    }
+
+    suspend fun save(moment: Moment): Moment {
         val momentId = momentDao.insert(moment)
         return moment.copy(id = momentId)
     }

@@ -7,8 +7,7 @@
     android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
     android:paddingHorizontal="10dp"
-    android:clipToPadding="false"
-    >
+    android:clipToPadding="false">
 
     <ImageView
         android:id="@+id/momentPhoto"
@@ -46,6 +45,6 @@
         app:layout_constraintRight_toRightOf="@id/momentPhoto"
         app:layout_constraintLeft_toLeftOf="@id/momentPhoto"
         app:layout_constraintBottom_toBottomOf="@id/momentPhoto"
-        />
+        tools:visibility="visible" />
 
 </merge>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
@@ -26,6 +27,8 @@ class CreateFragment : Fragment() {
 
         viewModel.save()
 
+        momentDeleteButton.setOnClickListener { onDeleteClicked() }
+
         momentTitle.setText(viewModel.moment.title)
         momentDescription.setText(viewModel.moment.description)
 
@@ -40,5 +43,11 @@ class CreateFragment : Fragment() {
                 viewModel.updateDescription(momentDescription.text.toString())
             }
         }
+    }
+
+    private fun onDeleteClicked() {
+        viewModel.delete()
+        val action = CreateFragmentDirections.toHome()
+        findNavController().navigate(action)
     }
 }

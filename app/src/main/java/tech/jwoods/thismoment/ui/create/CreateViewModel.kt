@@ -31,4 +31,8 @@ class CreateViewModel @ViewModelInject constructor(
         val savedMoment = momentRepository.save(moment)
         moment = savedMoment
     }
+
+    fun delete() = viewModelScope.launch(Dispatchers.IO) {
+        momentRepository.delete(moment)
+    }
 }
