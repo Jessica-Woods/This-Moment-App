@@ -1,12 +1,14 @@
-package tech.jwoods.thismoment
+package tech.jwoods.thismoment.home
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_moment_cell.view.*
+import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 
 class MomentAdapter(
@@ -14,6 +16,8 @@ class MomentAdapter(
 ) : ListAdapter<Moment, MomentAdapter.ViewHolder>(Moment.diff) {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val momentTitle: TextView = view.momentTitle
+        val momentFrame: ImageView = view.momentFrame
+        val momentPhoto: ImageView = view.momentPhoto
 
         fun bind(moment: Moment) {
             momentTitle.text = moment.title
