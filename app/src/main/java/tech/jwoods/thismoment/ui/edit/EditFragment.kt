@@ -1,29 +1,33 @@
 package tech.jwoods.thismoment.ui.edit
 
 import android.app.Activity
-import android.app.Dialog
+import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
-import kotlinx.android.synthetic.main.fragment_create_edit.momentDescription
-import kotlinx.android.synthetic.main.fragment_create_edit.momentTitle
-import kotlinx.android.synthetic.main.view_moment_image.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
+import tech.jwoods.thismoment.extensions.DatePickerDialogExtensions
 import tech.jwoods.thismoment.ui.create.CreateFragment
-import tech.jwoods.thismoment.ui.detail.DetailFragmentDirections
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 
 @AndroidEntryPoint
 class EditFragment : Fragment() {
@@ -47,8 +51,15 @@ class EditFragment : Fragment() {
 
             momentImageView.animatePolaroidFadeIn()
             momentImageView.setPhoto(moment.photo)
+            momentImageView.setDate(moment.date)
             momentTitle.setText(moment.title)
             momentDescription.setText(moment.description)
+
+            momentImageView.setOnMomentDateClickListener {
+                DatePickerDialogExtensions.show(requireContext(), moment.date) { date ->
+                    viewModel.save(moment.copy(date = date))
+                }
+            }
 
             momentImageView.setOnMomentPhotoClickListener { onImageClicked() }
 

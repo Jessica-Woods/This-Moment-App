@@ -36,6 +36,7 @@ class DetailFragment : Fragment() {
 
         viewModel.observeMoment(args.momentId).observe(viewLifecycleOwner, Observer { moment ->
             momentImageView.setPhoto(moment.photo)
+            momentImageView.setDate(moment.date)
             momentTitle.text = moment.title
             momentDescription.text = moment.description
             starButton.isChecked = moment.starred

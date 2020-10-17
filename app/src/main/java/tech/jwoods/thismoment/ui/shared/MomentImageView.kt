@@ -13,6 +13,8 @@ import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_moment_image.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
 class MomentImageView @JvmOverloads constructor(
@@ -37,6 +39,16 @@ class MomentImageView @JvmOverloads constructor(
             }
     }
 
+    fun setDate(date: ZonedDateTime?) {
+        if (date != null) {
+            val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+            momentDate.text = date.format(formatter)
+            momentDate.visibility = View.VISIBLE
+        } else {
+            momentDate.visibility = View.GONE
+        }
+    }
+
     fun setPhoto(uri: Uri?) {
         momentPhoto.setImageURI(uri)
     }
@@ -47,6 +59,10 @@ class MomentImageView @JvmOverloads constructor(
 
     fun setOnMomentPhotoClickListener(callback: () -> Unit) {
         momentPhoto.setOnClickListener { callback() }
+    }
+
+    fun setOnMomentDateClickListener(callback: () -> Unit) {
+        momentDate.setOnClickListener { callback() }
     }
 
     fun setGoldFrame(moment: Moment) {

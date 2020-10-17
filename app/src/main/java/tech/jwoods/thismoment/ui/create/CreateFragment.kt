@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
+import tech.jwoods.thismoment.extensions.DatePickerDialogExtensions
 
 
 @AndroidEntryPoint
@@ -40,6 +41,7 @@ class CreateFragment : Fragment() {
         momentImageView.animatePolaroidFadeIn()
         momentImageView.setOnMomentPhotoClickListener { onImageClicked() }
 
+        momentImageView.setDate(viewModel.moment.date)
         momentTitle.setText(viewModel.moment.title)
         momentDescription.setText(viewModel.moment.description)
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.time.ZonedDateTime
 
 @Entity(tableName = "moment")
 @Parcelize
@@ -15,6 +16,7 @@ data class Moment(
     val id: Long,
     val title: String,
     val description: String,
+    val date: ZonedDateTime,
     val photo: Uri?,
     var starred: Boolean
 ) : Parcelable {
@@ -32,7 +34,7 @@ data class Moment(
     }
 
     companion object {
-        fun empty(): Moment = Moment(0, "", "", null, false)
+        fun empty(): Moment = Moment(0, "", "", ZonedDateTime.now(), null, false)
 
         val diff = object : DiffUtil.ItemCallback<Moment>() {
             override fun areItemsTheSame(oldItem: Moment, newItem: Moment): Boolean {
