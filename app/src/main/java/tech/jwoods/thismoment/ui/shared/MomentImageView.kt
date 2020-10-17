@@ -7,9 +7,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.transition.AutoTransition
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_moment_image.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment

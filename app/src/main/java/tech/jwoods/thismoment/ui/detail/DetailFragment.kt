@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_detail.momentDescription
 import kotlinx.android.synthetic.main.fragment_detail.momentTitle
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
-import tech.jwoods.thismoment.ui.edit.DetailViewModel
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {

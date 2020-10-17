@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.ui.edit
+package tech.jwoods.thismoment.ui.detail
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject

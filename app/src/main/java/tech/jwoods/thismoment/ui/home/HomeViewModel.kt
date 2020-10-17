@@ -3,9 +3,6 @@ package tech.jwoods.thismoment.ui.home
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.data.MomentRepository
 import tech.jwoods.thismoment.extensions.combineWith
@@ -39,8 +36,6 @@ class HomeViewModel @ViewModelInject constructor(
                     ?.filter(searchFilter)
                     ?: listOf()
             }
-
-        return momentRepository.observeMoments()
     }
 
     fun observeStarFilter(): LiveData<Boolean> = useStarFilter

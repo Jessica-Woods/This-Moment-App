@@ -55,13 +55,13 @@ class EditFragment : Fragment() {
 
             momentImageView.setOnMomentPhotoClickListener { onImageClicked() }
 
-            momentTitle.setOnFocusChangeListener { v, hasFocus ->
+            momentTitle.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus && momentTitle.error == null) {
                     viewModel.save(moment.copy(title = momentTitle.text.toString()))
                 }
             }
 
-            momentDescription.setOnFocusChangeListener { v, hasFocus ->
+            momentDescription.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus && momentDescription.error == null) {
                     viewModel.save(moment.copy(description = momentDescription.text.toString()))
                 }
