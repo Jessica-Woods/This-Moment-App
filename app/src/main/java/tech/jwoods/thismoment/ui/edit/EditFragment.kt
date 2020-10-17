@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
-import tech.jwoods.thismoment.extensions.DatePickerDialogExtensions
+import tech.jwoods.thismoment.ui.dialog.Dialog
 
 
 @AndroidEntryPoint
@@ -48,7 +48,7 @@ class EditFragment : Fragment() {
             momentDescription.setText(moment.description)
 
             momentImageView.setOnMomentDateClickListener {
-                DatePickerDialogExtensions.show(requireContext(), moment.date) { date ->
+                Dialog.showZonedDatePickerDialog(requireContext(), moment.date) { date ->
                     viewModel.save(moment.copy(date = date))
                 }
             }
@@ -70,6 +70,20 @@ class EditFragment : Fragment() {
     }
 
     private fun onImageClicked() {
+        Dialog.showOptionsDialog(
+            requireContext(),
+            "Set Moment Image",
+            arrayOf("Take a Photo", "Pick from Gallery")
+        ) { which ->
+            when(which) {
+                0 -> takePhoto()
+                1 -> pickFromGallery()
+            }
+        }
+
+    }
+
+    private fun takePhoto() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         val contentValues = ContentValues().apply {
@@ -81,12 +95,19 @@ class EditFragment : Fragment() {
 
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
 
-        startActivityForResult(takePictureIntent, EditFragment.REQUEST_IMAGE_CAPTURE)
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+    }
+
+    private fun pickFromGallery() {
+        val pickPhoto = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhoto, REQUEST_GALLERY_IMAGE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == EditFragment.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             viewModel.updatePhoto(args.momentId, photoURI)
+        } else if (requestCode == REQUEST_GALLERY_IMAGE && resultCode == Activity.RESULT_OK) {
+            viewModel.updatePhoto(args.momentId, data?.data)
         }
     }
 
@@ -110,5 +131,6 @@ class EditFragment : Fragment() {
 
     companion object {
         const val REQUEST_IMAGE_CAPTURE = 1
+        const val REQUEST_GALLERY_IMAGE = 2
     }
 }
