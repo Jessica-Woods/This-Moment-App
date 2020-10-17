@@ -14,8 +14,8 @@
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
         <action
-            android:id="@+id/toCreate"
-            app:destination="@id/createFragment" />
+            android:id="@+id/toEdit"
+            app:destination="@id/editFragment" />
     </fragment>
 
     <fragment
@@ -44,13 +44,4 @@
             app:destination="@id/homeFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/createFragment"
-        android:name="tech.jwoods.thismoment.ui.create.CreateFragment"
-        android:label="CreateFragment"
-        tools:layout="@layout/fragment_create_edit" >
-        <action
-            android:id="@+id/toHome"
-            app:destination="@id/homeFragment" />
-    </fragment>
 </navigation>

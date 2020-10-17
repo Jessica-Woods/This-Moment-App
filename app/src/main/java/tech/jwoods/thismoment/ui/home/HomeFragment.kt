@@ -1,8 +1,6 @@
 package tech.jwoods.thismoment.ui.home
 
 import android.os.Bundle
-import android.os.Handler
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +8,15 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.transition.AutoTransition
-import androidx.transition.Slide
-import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
-import tech.jwoods.thismoment.extensions.animateVisibile
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -87,8 +84,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun onCreateClicked() {
-        val action = HomeFragmentDirections.toCreate()
-        findNavController().navigate(action)
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+            val moment = viewModel.createNewMoment()
+            val action = HomeFragmentDirections.toEdit(moment.id)
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun showSearchBar() {

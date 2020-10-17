@@ -1,7 +1,6 @@
 package tech.jwoods.thismoment.ui.edit
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +9,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -21,12 +19,6 @@ import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.extensions.DatePickerDialogExtensions
-import tech.jwoods.thismoment.ui.create.CreateFragment
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -89,11 +81,11 @@ class EditFragment : Fragment() {
 
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
 
-        startActivityForResult(takePictureIntent, CreateFragment.REQUEST_IMAGE_CAPTURE)
+        startActivityForResult(takePictureIntent, EditFragment.REQUEST_IMAGE_CAPTURE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CreateFragment.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == EditFragment.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             viewModel.updatePhoto(args.momentId, photoURI)
         }
     }
@@ -114,5 +106,9 @@ class EditFragment : Fragment() {
         super.onViewStateRestored(savedInstanceState)
 
         photoURI = savedInstanceState?.getParcelable("photoURI")
+    }
+
+    companion object {
+        const val REQUEST_IMAGE_CAPTURE = 1
     }
 }

@@ -2,10 +2,10 @@ package tech.jwoods.thismoment.ui.home
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.data.MomentRepository
 import tech.jwoods.thismoment.extensions.combineWith
@@ -57,4 +57,6 @@ class HomeViewModel @ViewModelInject constructor(
     fun searchMoments(text: String) {
         searchFilter.value = text
     }
+
+    suspend fun createNewMoment() = momentRepository.save(Moment.empty())
 }
