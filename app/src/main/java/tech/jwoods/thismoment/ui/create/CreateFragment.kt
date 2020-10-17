@@ -37,6 +37,7 @@ class CreateFragment : Fragment() {
 
         momentDeleteButton.setOnClickListener { onDeleteClicked() }
 
+        momentImageView.animatePolaroidFadeIn()
         momentImageView.setOnMomentPhotoClickListener { onImageClicked() }
 
         momentTitle.setText(viewModel.moment.title)

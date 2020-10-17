@@ -35,7 +35,18 @@
         app:layout_constraintBottom_toTopOf="@id/photoBottomGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/picture_placeholder" />
+        android:background="@color/black" />
+
+    <ImageView
+        android:id="@+id/momentPhotoFadeOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@id/momentPhoto"
+        app:layout_constraintRight_toRightOf="@id/momentPhoto"
+        app:layout_constraintTop_toTopOf="@id/momentPhoto"
+        app:layout_constraintBottom_toBottomOf="@id/momentPhoto"
+        android:visibility="gone"
+        android:background="@color/black" />
 
     <ImageView
         android:id="@+id/momentFrame"

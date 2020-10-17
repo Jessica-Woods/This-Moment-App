@@ -45,6 +45,7 @@ class EditFragment : Fragment() {
         viewModel.observeMoment(args.momentId).observe(viewLifecycleOwner, Observer { moment ->
             momentDeleteButton.setOnClickListener { onDeleteClicked(moment) }
 
+            momentImageView.animatePolaroidFadeIn()
             momentImageView.setPhoto(moment.photo)
             momentTitle.setText(moment.title)
             momentDescription.setText(moment.description)
