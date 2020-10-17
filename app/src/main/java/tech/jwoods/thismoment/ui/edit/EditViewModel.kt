@@ -1,11 +1,9 @@
 package tech.jwoods.thismoment.ui.edit
 
+import android.net.Uri
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tech.jwoods.thismoment.data.Moment
@@ -15,8 +13,10 @@ class EditViewModel @ViewModelInject constructor(
     private val momentRepository: MomentRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    fun observeMoment(attractionId: Long): LiveData<Moment> {
-        return momentRepository.observeMoment(attractionId)
+    fun observeMoment(momentId: Long): LiveData<Moment> = momentRepository.observeMoment(momentId)
+
+    fun updatePhoto(momentId: Long, photoURI: Uri?) = viewModelScope.launch(Dispatchers.IO) {
+        momentRepository.updatePhoto(momentId, photoURI)
     }
 
     fun delete(moment: Moment) = viewModelScope.launch(Dispatchers.IO) {

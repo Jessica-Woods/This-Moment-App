@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.momentDescription
 import kotlinx.android.synthetic.main.fragment_detail.momentTitle
+import kotlinx.android.synthetic.main.view_moment_image.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.ui.edit.DetailViewModel
@@ -33,6 +34,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.observeMoment(args.momentId).observe(viewLifecycleOwner, Observer { moment ->
+            momentPhoto.setImageURI(moment.photo)
             momentTitle.text = moment.title
             momentDescription.text = moment.description
             starButton.isChecked = moment.starred

@@ -9,16 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_moment_cell.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
+import tech.jwoods.thismoment.ui.shared.MomentImageView
 
 class MomentAdapter(
     val onClick: (Moment) -> Unit = { _ -> Unit }
 ) : ListAdapter<Moment, MomentAdapter.ViewHolder>(Moment.diff) {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val momentImageView = view.momentImage
-        val momentTitle: TextView = view.momentTitle
+        private val momentImageView: MomentImageView = view.momentImage
+        private val momentTitle: TextView = view.momentTitle
 
         fun bind(moment: Moment) {
             momentImageView.setGoldFrame(moment)
+            momentImageView.setPhoto(moment.photo)
             momentTitle.text = moment.title
         }
     }

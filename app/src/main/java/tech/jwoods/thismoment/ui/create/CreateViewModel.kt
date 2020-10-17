@@ -1,7 +1,9 @@
 package tech.jwoods.thismoment.ui.create
 
+import android.net.Uri
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,8 +16,11 @@ class CreateViewModel @ViewModelInject constructor(
     private val momentRepository: MomentRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
     var moment: Moment = Moment.empty()
+
+    fun observeMoment(attractionId: Long): LiveData<Moment> {
+        return momentRepository.observeMoment(attractionId)
+    }
 
     fun updateTitle(title: String) {
         moment = moment.copy(title = title)
@@ -24,6 +29,11 @@ class CreateViewModel @ViewModelInject constructor(
 
     fun updateDescription(description: String) {
         moment = moment.copy(description = description)
+        save()
+    }
+
+    fun updatePhoto(photo: Uri?) {
+        moment = moment.copy(photo = photo)
         save()
     }
 

@@ -9,16 +9,30 @@
     android:paddingHorizontal="10dp"
     android:clipToPadding="false">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/photoTopGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.04"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/photoBottomGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.83" />
+
     <ImageView
         android:id="@+id/momentPhoto"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:layout_marginTop="10dp"
         android:contentDescription="@string/moment_photo_description"
         app:layout_constraintWidth_percent="0.94"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photoTopGuideline"
+        app:layout_constraintBottom_toTopOf="@id/photoBottomGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/picture_placeholder" />

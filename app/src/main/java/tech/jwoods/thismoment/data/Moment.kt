@@ -1,5 +1,6 @@
 package tech.jwoods.thismoment.data
 
+import android.net.Uri
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
@@ -14,9 +15,8 @@ data class Moment(
     val id: Long,
     val title: String,
     val description: String,
+    val photo: Uri?,
     var starred: Boolean
-
-    // TODO Image
 ) : Parcelable {
     fun matchesSearchText(text: String): Boolean {
         if (text.isEmpty()) {
@@ -32,7 +32,7 @@ data class Moment(
     }
 
     companion object {
-        fun empty(): Moment = Moment(0, "", "", false)
+        fun empty(): Moment = Moment(0, "", "", null, false)
 
         val diff = object : DiffUtil.ItemCallback<Moment>() {
             override fun areItemsTheSame(oldItem: Moment, newItem: Moment): Boolean {
