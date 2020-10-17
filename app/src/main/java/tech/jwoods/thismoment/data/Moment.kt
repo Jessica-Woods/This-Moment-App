@@ -16,10 +16,19 @@ data class Moment(
     val description: String,
     var starred: Boolean
 
-    // TODO Starred + Image
+    // TODO Image
 ) : Parcelable {
-    fun includesSearchText(text: String): Boolean {
-        return true
+    fun matchesSearchText(text: String): Boolean {
+        if (text.isEmpty()) {
+            return true
+        }
+
+        val words: List<String> = text.split(" ", ",")
+
+        return words.all { word ->
+            title.contains(word, ignoreCase = true)
+                    || description.contains(word, ignoreCase = true)
+        }
     }
 
     companion object {

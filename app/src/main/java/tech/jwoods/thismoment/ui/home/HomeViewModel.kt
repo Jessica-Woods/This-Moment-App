@@ -14,6 +14,7 @@ class HomeViewModel @ViewModelInject constructor(
     private val momentRepository: MomentRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val showSearchBar: MutableLiveData<Boolean> = MutableLiveData(false)
     private val useStarFilter: MutableLiveData<Boolean> = MutableLiveData(false)
     private val searchFilter: MutableLiveData<String> = MutableLiveData("")
 
@@ -28,7 +29,7 @@ class HomeViewModel @ViewModelInject constructor(
 
                 val searchText = searchText ?: ""
                 val searchFilter = if (searchText != "") {
-                    { moment: Moment -> moment.includesSearchText(searchText) }
+                    { moment: Moment -> moment.matchesSearchText(searchText) }
                 } else {
                     { true }
                 }
@@ -43,12 +44,17 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     fun observeStarFilter(): LiveData<Boolean> = useStarFilter
+    fun observeShowSearchBar(): LiveData<Boolean> = showSearchBar
+
+    fun toggleSearchBar() {
+        showSearchBar.value = showSearchBar.value?.let { !it }
+    }
 
     fun toggleStarFilter() {
         useStarFilter.value = useStarFilter.value?.let { !it }
     }
 
-    fun search(text: String) {
+    fun searchMoments(text: String) {
         searchFilter.value = text
     }
 }
