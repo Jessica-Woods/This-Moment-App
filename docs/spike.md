@@ -20,7 +20,7 @@ Iteration 2: Create basic detail screen [DONE]
 - Accept navigation from Home screen
 - Create functional detail screen layout (placeholder image) 
 
-Iteration 3: Create basic edit screen
+Iteration 3: Create basic edit screen [DONE]
 
 - Accept navigation from Detail screen and Home screen
 - Create functional edit screen (text fields, labels, basic viewmodel, no fancy design elements)
@@ -33,7 +33,7 @@ Iteration 4: Photos
 - Selected images should be displayed on the Home, Detail and Edit screens
 - Photos should be cropped and scaled in an aesthetically pleasing way
 
-Iteration 5: Core Design
+Iteration 5: Core Design [DONE]
 
 - Add Photo frame on all three screens
 - Add Photo tape to detail screen

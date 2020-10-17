@@ -37,7 +37,16 @@ class HomeFragment : Fragment() {
             momentAdapter.submitList(moments)
         })
 
+        viewModel.observeStarFilter().observe(viewLifecycleOwner, Observer { useStarFilter ->
+            if(useStarFilter) {
+                starButton.setBackgroundResource(R.drawable.ic_star_selected)
+            } else {
+                starButton.setBackgroundResource(R.drawable.ic_star)
+            }
+        })
+
         createButton.setOnClickListener { onCreateClicked() }
+        starButton.setOnClickListener { onStarClicked() }
     }
 
     private fun onMomentClicked(moment: Moment) {
@@ -48,5 +57,9 @@ class HomeFragment : Fragment() {
     private fun onCreateClicked() {
         val action = HomeFragmentDirections.toCreate()
         findNavController().navigate(action)
+    }
+
+    private fun onStarClicked() {
+        viewModel.toggleStarFilter()
     }
 }

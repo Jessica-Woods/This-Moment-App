@@ -18,6 +18,10 @@ data class Moment(
 
     // TODO Starred + Image
 ) : Parcelable {
+    fun includesSearchText(text: String): Boolean {
+        return true
+    }
+
     companion object {
         fun empty(): Moment = Moment(0, "", "", false)
 
