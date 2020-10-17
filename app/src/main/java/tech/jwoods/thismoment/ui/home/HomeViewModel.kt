@@ -3,6 +3,8 @@ package tech.jwoods.thismoment.ui.home
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.data.MomentRepository
 import tech.jwoods.thismoment.extensions.combineWith
@@ -53,5 +55,8 @@ class HomeViewModel @ViewModelInject constructor(
         searchFilter.value = text
     }
 
-    suspend fun createNewMoment() = momentRepository.save(Moment.empty())
+    fun createNewMoment(callback: (Moment) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+        val moment = momentRepository.save(Moment.empty())
+        callback(moment)
+    }
 }

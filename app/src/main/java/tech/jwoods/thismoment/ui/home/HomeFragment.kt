@@ -84,12 +84,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun onCreateClicked() {
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            val moment = viewModel.createNewMoment()
+        viewModel.createNewMoment { moment ->
             val action = HomeFragmentDirections.toEdit(moment.id)
             findNavController().navigate(action)
         }
-
     }
 
     private fun showSearchBar() {
