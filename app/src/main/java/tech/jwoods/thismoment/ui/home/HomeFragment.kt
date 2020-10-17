@@ -2,6 +2,7 @@ package tech.jwoods.thismoment.ui.home
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.AutoTransition
+import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
+import tech.jwoods.thismoment.extensions.animateVisibile
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -90,26 +93,12 @@ class HomeFragment : Fragment() {
 
     private fun showSearchBar() {
         searchButton.setBackgroundResource(R.drawable.ic_search_selected)
-
-        TransitionManager.beginDelayedTransition(homeFragment, AutoTransition())
         searchBar.visibility = View.VISIBLE
     }
 
     private fun hideSearchBar() {
         searchButton.setBackgroundResource(R.drawable.ic_search)
-
-        TransitionManager.beginDelayedTransition(homeFragment, AutoTransition())
         searchBar.visibility = View.GONE
-
-        // We use a handler here to prevent `setQuery` from being included in the delayed
-        // transaction. This avoids a UI bug where the RecyclerView double-animates the cards
-        // when clearing the search text.
-        //
-        // This is a bit of a hack since I couldn't figure out how to run some code after the
-        // `TransitionManager` has ended, so we assume the transition won't take more then 500ms
-        // which seems to work in practice.
-        Handler().postDelayed({
-            searchBar.setQuery("", false)
-        }, 500)
+        searchBar.setQuery("", false)
     }
 }
