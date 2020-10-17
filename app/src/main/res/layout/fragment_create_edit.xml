@@ -72,6 +72,8 @@
                 android:textAppearance="@style/TitleText"
                 android:hint="title"
                 android:windowSoftInputMode="adjustPan"
+                android:maxLines="1"
+                android:inputType="text"
                 tools:text="Untitled"/>
 
         </com.google.android.material.textfield.TextInputLayout>

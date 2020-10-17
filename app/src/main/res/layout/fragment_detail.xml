@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/grid_background"
     tools:context=".ui.detail.DetailFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,8 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="20dp"
-        android:background="@drawable/grid_background">
+        android:paddingBottom="20dp">
 
         <ToggleButton
             android:id="@+id/starButton"
