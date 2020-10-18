@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.ui.dialog
+package tech.jwoods.thismoment.ui.shared
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -7,7 +7,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-
 
 object Dialog {
     fun showZonedDatePickerDialog(context: Context, date: ZonedDateTime, callback: (ZonedDateTime) -> Unit) {
@@ -27,9 +26,6 @@ object Dialog {
     }
 
     fun showOptionsDialog(context: Context, title: String, options: Array<String>, callback: (Int) -> Unit) {
-        // setup the alert builder
-
-        // setup the alert builder
         val builder = AlertDialog.Builder(context).apply {
             setTitle(title)
         }

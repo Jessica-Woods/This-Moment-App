@@ -54,10 +54,6 @@ class MomentImageView @JvmOverloads constructor(
             .into(momentPhoto)
     }
 
-    fun setPhotoBitmap(bitmap: Bitmap?) {
-        momentPhoto.setImageBitmap(bitmap)
-    }
-
     fun setOnMomentPhotoClickListener(callback: () -> Unit) {
         momentPhoto.setOnClickListener { callback() }
     }

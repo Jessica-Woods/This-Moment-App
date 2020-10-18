@@ -25,9 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
-import tech.jwoods.thismoment.ui.dialog.Dialog
+import tech.jwoods.thismoment.ui.shared.Dialog
 import java.io.File
-import java.util.*
 
 
 @AndroidEntryPoint
