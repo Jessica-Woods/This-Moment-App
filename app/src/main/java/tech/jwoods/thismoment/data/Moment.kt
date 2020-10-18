@@ -1,9 +1,11 @@
 package tech.jwoods.thismoment.data
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import java.time.ZonedDateTime
@@ -18,7 +20,7 @@ data class Moment(
     val description: String,
     val date: ZonedDateTime,
     val photo: Uri?,
-    var starred: Boolean
+    val starred: Boolean
 ) : Parcelable {
     fun matchesSearchText(text: String): Boolean {
         if (text.isEmpty()) {

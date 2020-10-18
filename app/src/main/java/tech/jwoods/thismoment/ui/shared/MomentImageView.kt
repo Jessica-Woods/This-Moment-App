@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_moment_image.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
@@ -47,7 +48,10 @@ class MomentImageView @JvmOverloads constructor(
     }
 
     fun setPhoto(uri: Uri?) {
-        momentPhoto.setImageURI(uri)
+        Glide
+            .with(context)
+            .load(uri)
+            .into(momentPhoto)
     }
 
     fun setPhotoBitmap(bitmap: Bitmap?) {

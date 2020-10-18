@@ -1,24 +1,33 @@
 package tech.jwoods.thismoment.ui.edit
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.qifan.powerpermission.askPermissions
+import com.qifan.powerpermission.data.hasAllGranted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.ui.dialog.Dialog
+import java.io.File
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -84,18 +93,43 @@ class EditFragment : Fragment() {
     }
 
     private fun takePhoto() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        askPermissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) { permission ->
+            if (permission.hasAllGranted()) {
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/ThisMoment/")
+                val appName = requireContext().getString(R.string.app_name)
+
+                photoURI = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val photoDir = Environment.DIRECTORY_PICTURES + File.separator + appName
+
+                    val contentValues = ContentValues().apply {
+                        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.MediaColumns.RELATIVE_PATH, "$photoDir${File.separator}")
+                    }
+                    val resolver = requireContext().contentResolver
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                } else {
+                    val photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    val thisMomentPhotoDir = File(photoDir, appName)
+                    thisMomentPhotoDir.mkdir()
+                    val photoFile = File.createTempFile("Moment", ".jpg", thisMomentPhotoDir)
+                    FileProvider.getUriForFile(
+                        requireContext(),
+                        "tech.jwoods.thismoment",
+                        photoFile
+                    )
+                }
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            } else {
+                Log.d(TAG, "No permission granted")
+            }
         }
-        val resolver = requireContext().contentResolver
-        photoURI = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
     }
 
     private fun pickFromGallery() {
@@ -130,6 +164,8 @@ class EditFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "EditFragment"
+
         const val REQUEST_IMAGE_CAPTURE = 1
         const val REQUEST_GALLERY_IMAGE = 2
     }

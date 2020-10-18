@@ -26,7 +26,7 @@ Iteration 3: Create basic edit screen [DONE]
 - Create functional edit screen (text fields, labels, basic viewmodel, no fancy design elements)
 - Edited field data is reflected in the database when the field loses focus
 
-Iteration 4: Photos
+Iteration 4: Photos [DONE]
 
 - When tapping the Image on the Edit screen the user should be prompted to take a photo or select an image.
   The selected image becomes the new data for this Moment.
@@ -39,13 +39,13 @@ Iteration 5: Core Design [DONE]
 - Add Photo tape to detail screen
 - Add backgrounds if we haven't already done that
 
-Iteration 6: Starring
+Iteration 6: Starring [DONE]
 
 - Add Star icon to top right of Detail screen, when tapped/untapped the state should be updated
 - Add Star icon to bottom bar of home screen, it should filter moments to starred moments when active
 - Add gold border to starred moments on home screen
 
-Iteration 7: Search
+Iteration 7: Search [DONE]
 
 - Add Search icon to bottom bar of home screen, it should show/hide the search bar at the top of the screen
 - When searching items should be filtered by the contents of the search bar
@@ -66,6 +66,7 @@ Iteration 7: Search
 - See your Moment
 - *Star* your Moment
 - Edit your Moment
+- Fade-in animation for that nostalgic polaroid feel
 
 ### Edit Screen (Create + Update + Delete Screen)
 

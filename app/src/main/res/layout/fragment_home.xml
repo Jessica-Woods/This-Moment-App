@@ -9,7 +9,6 @@
     android:background="@drawable/grid_background"
     tools:context=".ui.home.HomeFragment">
 
-
     <SearchView
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
