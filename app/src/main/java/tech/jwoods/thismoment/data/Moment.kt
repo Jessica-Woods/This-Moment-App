@@ -1,17 +1,12 @@
 package tech.jwoods.thismoment.data
 
-import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
 import java.time.ZonedDateTime
 
 @Entity(tableName = "moment")
-@Parcelize
 data class Moment(
 
     @PrimaryKey(autoGenerate = true)
@@ -21,7 +16,7 @@ data class Moment(
     val date: ZonedDateTime,
     val photo: Uri?,
     val starred: Boolean
-) : Parcelable {
+) {
     fun matchesSearchText(text: String): Boolean {
         if (text.isEmpty()) {
             return true
