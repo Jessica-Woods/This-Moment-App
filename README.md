@@ -6,6 +6,8 @@ Some days you might have three key moments, such as “the first time I painted 
  
 ![this moment app icon](docs/images/this-moment-icon.png)
 
+https://www.youtube.com/watch?v=LbYnZcrKMyc
+
 # TO-DO
 
  - Folder Structures (Bookcase Style)
