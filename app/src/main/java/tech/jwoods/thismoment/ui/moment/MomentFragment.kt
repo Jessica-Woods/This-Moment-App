@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.ui.home
+package tech.jwoods.thismoment.ui.moment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,25 +8,22 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_moment.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Moment
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels()
+class MomentFragment : Fragment() {
+    private val viewModel: MomentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_moment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +72,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onMomentClicked(moment: Moment) {
-        val action = HomeFragmentDirections.toDetail(moment.id)
+        val action = MomentFragmentDirections.toDetail(moment.id)
         findNavController().navigate(action)
     }
 
@@ -85,7 +82,7 @@ class HomeFragment : Fragment() {
 
     private fun onCreateClicked() {
         viewModel.createNewMoment { moment ->
-            val action = HomeFragmentDirections.toEdit(moment.id)
+            val action = MomentFragmentDirections.toEdit(moment.id)
             findNavController().navigate(action)
         }
     }

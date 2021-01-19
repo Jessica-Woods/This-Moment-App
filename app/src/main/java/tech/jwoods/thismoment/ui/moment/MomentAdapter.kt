@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.ui.home
+package tech.jwoods.thismoment.ui.moment
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package tech.jwoods.thismoment.ui.home
+package tech.jwoods.thismoment.ui.moment
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -9,7 +9,7 @@ import tech.jwoods.thismoment.data.Moment
 import tech.jwoods.thismoment.data.MomentRepository
 import tech.jwoods.thismoment.extensions.combineWith
 
-class HomeViewModel @ViewModelInject constructor(
+class MomentViewModel @ViewModelInject constructor(
     private val momentRepository: MomentRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

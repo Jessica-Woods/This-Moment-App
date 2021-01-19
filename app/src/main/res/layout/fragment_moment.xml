@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grid_background"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.moment.MomentFragment">
 
     <SearchView
         android:id="@+id/searchBar"
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <!--
-        We need this Space to get `bottomBarBackground` to respect the top margin
+        We need this Space component to get `bottomBarBackground` to respect the top margin
         of `addButton`
     -->
     <Space
@@ -52,17 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_button_vertical_margin"
         app:layout_constraintBottom_toTopOf="@id/createButton" />
-
-    <ImageButton
-        android:id="@+id/createButton"
-        android:layout_width="@dimen/bottom_button_size"
-        android:layout_height="@dimen/bottom_button_size"
-        android:layout_marginBottom="@dimen/bottom_button_vertical_margin"
-        android:background="@drawable/ic_create"
-        android:contentDescription="@string/create_button_description"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <ImageButton
         android:id="@+id/searchButton"
@@ -75,7 +64,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="@dimen/bottom_button_horizontal_offset" />
 
-    <ImageButton
+<!--    <ImageButton
         android:id="@+id/starButton"
         android:layout_width="@dimen/bottom_button_size"
         android:layout_height="@dimen/bottom_button_size"
@@ -83,6 +72,41 @@
         android:background="@drawable/ic_star"
         android:contentDescription="@string/star_button_description"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/searchButton"
+        android:layout_marginLeft="@dimen/bottom_button_horizontal_offset" />-->
+
+    <ImageButton
+        android:id="@+id/createButton"
+        android:layout_width="@dimen/bottom_button_size"
+        android:layout_height="@dimen/bottom_button_size"
+        android:layout_marginBottom="@dimen/bottom_button_vertical_margin"
+        android:background="@drawable/ic_create"
+        android:contentDescription="@string/create_button_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+<ImageButton
+            android:id="@+id/starButton"
+            android:layout_width="@dimen/bottom_button_size"
+            android:layout_height="@dimen/bottom_button_size"
+            android:layout_marginVertical="@dimen/bottom_button_vertical_margin"
+            android:background="@drawable/ic_star"
+            android:contentDescription="@string/star_button_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/bottom_button_horizontal_offset" />
+
+
+<!--    <ImageButton
+        android:id="@+id/bookcaseButton"
+        android:layout_width="@dimen/bottom_button_size"
+        android:layout_height="@dimen/bottom_button_size"
+        android:layout_marginVertical="@dimen/bottom_button_vertical_margin"
+        android:background="@drawable/ic_bookcase"
+        android:contentDescription="@string/bookcase_button_description"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="@dimen/bottom_button_horizontal_offset" />
+        android:layout_marginRight="@dimen/bottom_button_horizontal_offset" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

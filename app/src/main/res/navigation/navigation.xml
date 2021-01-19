@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="tech.jwoods.thismoment.ui.home.HomeFragment"
+        android:name="tech.jwoods.thismoment.ui.moment.MomentFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_moment" >
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />

@@ -3,6 +3,7 @@
     <string name="create_button_description">Create Button</string>
     <string name="search_button_description">Search Button</string>
     <string name="star_button_description">Star Button</string>
+    <string name="bookcase_button_description">Bookcase Button</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="moment_photo_description">photo of moment</string>
