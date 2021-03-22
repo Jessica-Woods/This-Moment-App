@@ -6,9 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import tech.jwoods.thismoment.data.MomentDAO
-import tech.jwoods.thismoment.data.MomentRepository
-import tech.jwoods.thismoment.data.ThisMomentDatabase
+import tech.jwoods.thismoment.data.*
 import javax.inject.Singleton
 
 @Module
@@ -28,4 +26,13 @@ object DatabaseModule {
     @Provides
     fun providesMomentRepository(momentDao: MomentDAO): MomentRepository =
         MomentRepository(momentDao)
+
+    @Singleton
+    @Provides
+    fun providesAlbumDao(database: ThisMomentDatabase): AlbumDAO = database.albumDao()
+
+    @Singleton
+    @Provides
+    fun providesAlbumRepository(albumDao: AlbumDAO): AlbumRepository =
+        AlbumRepository(albumDao)
 }

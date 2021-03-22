@@ -11,6 +11,7 @@ data class Moment(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long,
+    val albumId: Long,
     val title: String,
     val description: String,
     val date: ZonedDateTime,
@@ -31,7 +32,7 @@ data class Moment(
     }
 
     companion object {
-        fun empty(): Moment = Moment(0, "", "", ZonedDateTime.now(), null, false)
+        fun empty(): Moment = Moment(0, 0, "", "", ZonedDateTime.now(), null, false)
 
         val diff = object : DiffUtil.ItemCallback<Moment>() {
             override fun areItemsTheSame(oldItem: Moment, newItem: Moment): Boolean {

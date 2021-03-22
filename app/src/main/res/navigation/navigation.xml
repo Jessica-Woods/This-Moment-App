@@ -3,13 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/albumFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/albumFragment"
+        android:name="tech.jwoods.thismoment.ui.album.AlbumFragment"
+        android:label="AlbumFragment"
+        tools:layout="@layout/fragment_album"
+        />
+
+    <fragment
+        android:id="@+id/momentFragment"
         android:name="tech.jwoods.thismoment.ui.moment.MomentFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_moment" >
+        android:label="fragment_moment"
+        tools:layout="@layout/fragment_moment">
         <action
             android:id="@+id/toDetail"
             app:destination="@id/detailFragment" />
@@ -41,7 +48,7 @@
             app:argType="long" />
         <action
             android:id="@+id/toHome"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/momentFragment" />
     </fragment>
 
 </navigation>
