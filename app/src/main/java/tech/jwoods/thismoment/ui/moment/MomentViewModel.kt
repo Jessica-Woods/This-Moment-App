@@ -1,5 +1,6 @@
 package tech.jwoods.thismoment.ui.moment
 
+import android.view.ActionMode
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -55,8 +56,8 @@ class MomentViewModel @ViewModelInject constructor(
         searchFilter.value = text
     }
 
-    fun createNewMoment(callback: (Moment) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
-        val moment = momentRepository.save(Moment.empty())
+    fun createNewMoment(albumId: Long, callback: (Moment) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+        val moment = momentRepository.save(Moment.empty(albumId))
         callback(moment)
     }
 }

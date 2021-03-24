@@ -13,8 +13,8 @@ interface MomentDAO {
     fun observeMoment(id: Long): LiveData<Moment>
 
     @Transaction
-    @Query("SELECT * FROM album")
-    fun observeAlbumAndMoments(): LiveData<List<AlbumAndMoments>>
+    @Query("SELECT * FROM album WHERE id = :albumId")
+    fun observeAlbumAndMoments(albumId: Long): LiveData<AlbumAndMoments>
 
     @Query("UPDATE moment SET photo = :photoURI WHERE id = :id")
     suspend fun updatePhoto(id: Long, photoURI: Uri?)

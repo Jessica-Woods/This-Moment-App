@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_moment.*
@@ -17,6 +18,7 @@ import tech.jwoods.thismoment.data.Moment
 
 @AndroidEntryPoint
 class MomentFragment : Fragment() {
+    private val args: MomentFragmentArgs by navArgs()
     private val viewModel: MomentViewModel by viewModels()
 
     override fun onCreateView(
@@ -47,7 +49,7 @@ class MomentFragment : Fragment() {
         momentsRecycler.adapter = momentAdapter
 
         viewModel.observeMoments().observe(viewLifecycleOwner, Observer { moments ->
-            momentAdapter.submitList(moments)
+            momentAdapter.submitList(moments.filter { m -> m.albumId == args.albumId })
         })
 
         viewModel.observeStarFilter().observe(viewLifecycleOwner, Observer { useStarFilter ->
@@ -81,7 +83,7 @@ class MomentFragment : Fragment() {
     }
 
     private fun onCreateClicked() {
-        viewModel.createNewMoment { moment ->
+        viewModel.createNewMoment(args.albumId) { moment ->
             val action = MomentFragmentDirections.toEdit(moment.id)
             findNavController().navigate(action)
         }
