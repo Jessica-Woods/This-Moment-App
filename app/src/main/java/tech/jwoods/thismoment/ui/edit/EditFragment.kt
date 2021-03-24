@@ -146,7 +146,8 @@ class EditFragment : Fragment() {
 
     private fun onDeleteClicked(moment: Moment) {
         viewModel.delete(moment)
-        val action = EditFragmentDirections.toHome()
+        //TODO we now need to pass the album ID
+        val action = EditFragmentDirections.toHome(moment.albumId)
         findNavController().navigate(action)
     }
 

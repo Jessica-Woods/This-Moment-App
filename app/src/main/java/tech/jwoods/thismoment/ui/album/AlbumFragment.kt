@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_album.*
@@ -74,8 +75,8 @@ class AlbumFragment : Fragment() {
 
     private fun onAlbumClicked(album: Album) {
         // open moments page
-/*        val action = MomentFragmentDirections.toDetail(moment.id)
-        findNavController().navigate(action)*/
+        val action = AlbumFragmentDirections.toMoment(album.id)
+        findNavController().navigate(action)
     }
 
     private fun onSearchClicked() {
@@ -83,10 +84,7 @@ class AlbumFragment : Fragment() {
     }
 
     private fun onCreateClicked() {
-/*        viewModel.createNewAlbum { moment ->
-            val action = MomentFragmentDirections.toEdit(moment.id)
-            findNavController().navigate(action)
-        }*/
+        viewModel.createNewAlbum {}
     }
 
     private fun showSearchBar() {

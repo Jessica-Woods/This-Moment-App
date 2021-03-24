@@ -8,9 +8,12 @@
     <fragment
         android:id="@+id/albumFragment"
         android:name="tech.jwoods.thismoment.ui.album.AlbumFragment"
-        android:label="AlbumFragment"
-        tools:layout="@layout/fragment_album"
-        />
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album">
+        <action
+            android:id="@+id/toMoment"
+            app:destination="@id/momentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/momentFragment"
@@ -23,6 +26,12 @@
         <action
             android:id="@+id/toEdit"
             app:destination="@id/editFragment" />
+        <action
+            android:id="@+id/toAlbum"
+            app:destination="@id/albumFragment" />
+        <argument
+            android:name="album_id"
+            app:argType="long" />
     </fragment>
 
     <fragment
