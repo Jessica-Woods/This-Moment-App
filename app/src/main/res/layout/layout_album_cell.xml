@@ -8,14 +8,16 @@
     android:layout_marginTop="40dp"
     android:layout_marginHorizontal="20dp">
 
-    <TextView
+    <EditText
         android:id="@+id/albumTitle"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
-        android:maxLines="2"
-        android:ellipsize="end"
+        android:textColor="#FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,6 +30,8 @@
         app:layout_constraintTop_toBottomOf="@id/albumTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        app:srcCompat="@mipmap/ic_launcher_foreground"
+        android:contentDescription="@string/album"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

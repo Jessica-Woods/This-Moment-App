@@ -6,7 +6,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_albums"
-    android:tileMode="repeat" >
+    android:tileMode="repeat"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true">
 
     <SearchView
         android:id="@+id/searchBar"
@@ -24,6 +27,7 @@
         android:clipToPadding="false"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
+        android:clickable="false"
         app:layout_constraintTop_toBottomOf="@id/searchBar"
         app:layout_constraintBottom_toTopOf="@id/bottomBarBackground" />
 

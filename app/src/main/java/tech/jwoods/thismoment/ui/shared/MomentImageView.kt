@@ -1,7 +1,6 @@
 package tech.jwoods.thismoment.ui.shared
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater

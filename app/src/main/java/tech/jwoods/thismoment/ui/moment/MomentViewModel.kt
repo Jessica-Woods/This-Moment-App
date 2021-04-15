@@ -1,6 +1,5 @@
 package tech.jwoods.thismoment.ui.moment
 
-import android.view.ActionMode
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*

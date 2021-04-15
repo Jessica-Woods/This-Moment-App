@@ -28,7 +28,6 @@ class AlbumFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 /*
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -43,9 +42,10 @@ class AlbumFragment : Fragment() {
         })
 */
 
+
         albumsRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        val albumAdapter = AlbumAdapter(onClick = ::onAlbumClicked)
+        val albumAdapter = AlbumAdapter(onClick = ::onAlbumClicked, onTitleChanged = ::onAlbumTitleChanged)
         albumsRecycler.adapter = albumAdapter
 
         viewModel.observeAlbums().observe(viewLifecycleOwner, Observer { albums ->
@@ -77,6 +77,10 @@ class AlbumFragment : Fragment() {
         // open moments page
         val action = AlbumFragmentDirections.toMoment(album.id)
         findNavController().navigate(action)
+    }
+
+    private fun onAlbumTitleChanged(album: Album) {
+        viewModel.save(album)
     }
 
     private fun onSearchClicked() {

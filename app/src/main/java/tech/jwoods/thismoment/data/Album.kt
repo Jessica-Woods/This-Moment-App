@@ -23,7 +23,7 @@ data class Album(
     }
 
     companion object {
-        fun empty(): Album = Album(0, "", null, false)
+        fun empty(): Album = Album(0, "New Album", null, false)
 
         val diff = object : DiffUtil.ItemCallback<Album>() {
             override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
