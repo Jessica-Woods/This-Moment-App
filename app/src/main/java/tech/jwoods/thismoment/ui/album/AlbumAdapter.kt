@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.ListAdapter
@@ -22,6 +23,7 @@ class AlbumAdapter(
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val albumTitle: TextView = view.albumTitle
+        val albumImage: ImageView = view.albumImage
 
         fun bind(album: Album) {
             albumTitle.text = album.title
@@ -42,6 +44,6 @@ class AlbumAdapter(
                 onTitleChanged(album.copy(title = holder.albumTitle.text.toString()))
             }
         }
-        holder.itemView.setOnClickListener { onClick(album) }
+        holder.albumImage.setOnClickListener { onClick(album) }
     }
 }
