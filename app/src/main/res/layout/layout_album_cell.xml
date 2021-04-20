@@ -6,33 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
-    android:layout_marginHorizontal="20dp">
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp">
 
     <EditText
         android:id="@+id/albumTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@null"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
         android:ellipsize="end"
-        android:maxLines="2"
+        android:inputType="text"
+        android:maxLines="1"
+
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
         android:textColor="#FFFFFF"
+        android:windowSoftInputMode="adjustPan"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:windowSoftInputMode="adjustPan"
         tools:text="My Album" />
 
     <ImageView
         android:id="@+id/albumImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/albumTitle"
+
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/album"
+
+        android:scaleType="centerCrop"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_foreground"
-        android:contentDescription="@string/album"
-        />
+        app:layout_constraintTop_toBottomOf="@id/albumTitle"
+        app:srcCompat="@drawable/picture_placeholder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

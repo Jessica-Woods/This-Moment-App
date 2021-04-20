@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_album.*
+import kotlinx.android.synthetic.main.fragment_album.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Album
+
 
 @AndroidEntryPoint
 class AlbumFragment : Fragment() {
@@ -43,14 +46,22 @@ class AlbumFragment : Fragment() {
 */
 
 
-        albumsRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        albumsRecycler.layoutManager = layoutManager
 
-        val albumAdapter = AlbumAdapter(onClick = ::onAlbumClicked, onTitleChanged = ::onAlbumTitleChanged)
+        val albumAdapter = AlbumAdapter(
+            onClick = ::onAlbumClicked,
+            onTitleChanged = ::onAlbumTitleChanged
+        )
         albumsRecycler.adapter = albumAdapter
 
         viewModel.observeAlbums().observe(viewLifecycleOwner, Observer { albums ->
             albumAdapter.submitList(albums)
         })
+
+        albumsRecycler.addItemDecoration(
+            ShelfItemDecoration(requireContext(), R.drawable.bg_bookcase_shelf)
+        )
 
 /*        viewModel.observeStarFilter().observe(viewLifecycleOwner, Observer { useStarFilter ->
             if(useStarFilter) {
