@@ -1,20 +1,21 @@
 package tech.jwoods.thismoment.ui.album
 
-import android.content.Context
+import android.text.TextUtils
+import android.text.method.TextKeyListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_create_edit.*
 import kotlinx.android.synthetic.main.layout_album_cell.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Album
-import kotlin.reflect.KFunction0
+import tech.jwoods.thismoment.extensions.ellipsizeWorkaround
+
 
 class AlbumAdapter(
     val onClick: (Album) -> Unit = { _ -> Unit },
@@ -22,11 +23,11 @@ class AlbumAdapter(
 ): ListAdapter<Album, AlbumAdapter.ViewHolder>(Album.diff) {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val albumTitle: TextView = view.albumTitle
+        val albumTitle: EditText = view.albumTitle
         val albumImage: ImageView = view.albumImage
 
         fun bind(album: Album) {
-            albumTitle.text = album.title
+            albumTitle.setText(album.title)
         }
     }
 
@@ -45,5 +46,7 @@ class AlbumAdapter(
             }
         }
         holder.albumImage.setOnClickListener { onClick(album) }
+
+        holder.albumTitle.ellipsizeWorkaround()
     }
 }

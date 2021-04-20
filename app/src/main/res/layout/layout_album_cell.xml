@@ -6,27 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="40dp">
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    >
 
     <EditText
         android:id="@+id/albumTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@null"
 
         android:ellipsize="end"
-        android:inputType="text"
         android:maxLines="1"
+        android:scrollHorizontally="false"
+        android:inputType="textNoSuggestions"
 
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
         android:textColor="#FFFFFF"
-        android:windowSoftInputMode="adjustPan"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/albumImage"
+        app:layout_constraintRight_toRightOf="@id/albumImage"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="My Album" />
+        app:layout_constraintBottom_toTopOf="@id/albumImage"/>
 
     <ImageView
         android:id="@+id/albumImage"
