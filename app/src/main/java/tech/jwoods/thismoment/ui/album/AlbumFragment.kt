@@ -4,18 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_album.*
-import kotlinx.android.synthetic.main.fragment_album.view.*
 import tech.jwoods.thismoment.R
 import tech.jwoods.thismoment.data.Album
-
 
 @AndroidEntryPoint
 class AlbumFragment : Fragment() {
@@ -45,12 +43,12 @@ class AlbumFragment : Fragment() {
         })
 */
 
-
         val layoutManager = GridLayoutManager(requireContext(), 2)
         albumsRecycler.layoutManager = layoutManager
 
         val albumAdapter = AlbumAdapter(
             onClick = ::onAlbumClicked,
+            onLongClick = ::onAlbumLongClicked,
             onTitleChanged = ::onAlbumTitleChanged
         )
         albumsRecycler.adapter = albumAdapter
@@ -88,6 +86,14 @@ class AlbumFragment : Fragment() {
         // open moments page
         val action = AlbumFragmentDirections.toMoment(album.id)
         findNavController().navigate(action)
+    }
+
+    private fun onAlbumLongClicked(album: Album): Boolean {
+        Toast.makeText(context,
+            "You have long clicked "+ album.title + "!",
+            Toast.LENGTH_SHORT).show()
+
+        return true
     }
 
     private fun onAlbumTitleChanged(album: Album) {
